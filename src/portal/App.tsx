@@ -13,9 +13,15 @@ function env(name: string, fallback?: string) {
   return (import.meta.env[name] as string | undefined) ?? fallback;
 }
 
-const apiBaseUrl = env('VITE_API_BASE_URL', 'http://localhost:8787');
-const internalDashboardUrl = env('VITE_INTERNAL_DASHBOARD_URL', 'http://localhost:5173');
-const clientDashboardUrl = env('VITE_CLIENT_DASHBOARD_URL', 'http://localhost:5174');
+const apiBaseUrl = env('VITE_API_BASE_URL');
+const internalDashboardUrl = env('VITE_INTERNAL_DASHBOARD_URL');
+const clientDashboardUrl = env('VITE_CLIENT_DASHBOARD_URL');
+
+if (!apiBaseUrl || !internalDashboardUrl || !clientDashboardUrl) {
+  throw new Error(
+    'Missing required env vars: VITE_API_BASE_URL, VITE_INTERNAL_DASHBOARD_URL, VITE_CLIENT_DASHBOARD_URL'
+  );
+}
 
 export function App() {
   const [email, setEmail] = useState('');
